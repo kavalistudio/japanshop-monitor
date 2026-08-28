@@ -22,8 +22,10 @@ jobs:
       - name: Run JapanShop monitor
         id: monitor
         env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
+          set -o pipefail
           python3 monitor.py | tee monitor.log
           if grep -q '^STATE_UPDATED=' monitor.log; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
